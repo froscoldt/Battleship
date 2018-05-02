@@ -16,7 +16,8 @@ public class RandomPlayer implements BattleshipsPlayer {
     private Board myBoard;
     ArrayList<int[]> coordinates = new ArrayList();
     private boolean checkIfHit;
-    private int fireX = 0;
+    private int checkAmountOfShips;
+    private int fireX = -2;
     private int fireY = 0;
     private int shipAtX;
     private int shipAtY;
@@ -52,18 +53,18 @@ public class RandomPlayer implements BattleshipsPlayer {
             Position pos;
             boolean vertical;
 
-            do {                
-            vertical = rnd.nextBoolean();
-            if (vertical) {
-                int x = rnd.nextInt(sizeX);
-                int y = rnd.nextInt(sizeY - (s.size() - 1));
-                pos = new Position(x, y);
-            } else {
-                int x = rnd.nextInt(sizeX - (s.size() - 1));
-                int y = rnd.nextInt(sizeY);
-                pos = new Position(x, y);
-            }
-            } while (collision(pos,s,vertical)); // skal se dette i forhold vores array
+            do {
+                vertical = rnd.nextBoolean();
+                if (vertical) {
+                    int x = rnd.nextInt(sizeX);
+                    int y = rnd.nextInt(sizeY - (s.size() - 1));
+                    pos = new Position(x, y);
+                } else {
+                    int x = rnd.nextInt(sizeX - (s.size() - 1));
+                    int y = rnd.nextInt(sizeY);
+                    pos = new Position(x, y);
+                }
+            } while (collision(pos, s, vertical)); // skal se dette i forhold vores array
 
             for (int j = 0; j < s.size(); j++) {
                 if (vertical) {
@@ -101,16 +102,19 @@ public class RandomPlayer implements BattleshipsPlayer {
      */
     @Override
     public Position getFireCoordinates(Fleet enemyShips) {
-        if (checkIfHit && foundShip == false) {
+        checkAmountOfShips = enemyShips.getNumberOfShips();
+        if (foundShip) {
+            shipAtY++;
+            return new Position(shipAtX, shipAtY);
+            // continue direction or adjust until ship is destroyed.
+        } else if (checkIfHit) {
             shipAtX = fireX;
             shipAtY = fireY;
             foundShip = true;
-        } else if (foundShip) {
-            // do something to find the rest of the ship.
-            
-            return new Position(shipAtX,shipAtY+1);
-            
-            
+            return new Position(shipAtX -1, shipAtY);
+            // pick random direction to not waste our turn.
+
+
         } else {
             if (fireX < 8) {
                 fireX = fireX + 2;
@@ -139,6 +143,12 @@ public class RandomPlayer implements BattleshipsPlayer {
     @Override
     public void hitFeedBack(boolean hit, Fleet enemyShips) {
         checkIfHit = hit;
+
+        if (checkAmountOfShips != enemyShips.getNumberOfShips() || hit == false) {
+            foundShip = false;
+
+        }
+
     }
 
     /**
@@ -192,6 +202,6 @@ public class RandomPlayer implements BattleshipsPlayer {
 
     private boolean collision(Position pos, Ship s, boolean vertical) {
         return false;
-        
+
     }
 }
