@@ -107,6 +107,10 @@ public class RandomPlayer implements BattleshipsPlayer {
             AllPossiblePaths.remove(0);
         }
         
+        if (checkIfHit == true && AllPossiblePaths.isEmpty()) {
+            checkIfHit = false;
+        }
+        
         if (checkAmountOfShips != enemyShips.getNumberOfShips()) {
             checkIfHit = false;
             AllPossiblePaths.clear();

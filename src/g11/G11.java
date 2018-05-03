@@ -30,7 +30,7 @@ public class G11 implements PlayerFactory<BattleshipsPlayer> {
     @Override
     public String[] getAuthors()
     {
-        String[] res = {"Mark Dyrby Denner","Mads","Damjan"};
+        String[] res = {"Mark Dyrby Denner","Mads Wulff Nielsen","Damjan Djurisic"};
         return res;
     }
 
