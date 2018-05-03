@@ -24,7 +24,7 @@ public class G11 implements PlayerFactory<BattleshipsPlayer> {
     @Override
     public String getName()
     {
-        return "Random player";
+        return "G11";
     }
 
     @Override
