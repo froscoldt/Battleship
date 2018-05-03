@@ -40,13 +40,13 @@ public class RandomPlayer implements BattleshipsPlayer {
             do {
                 vertical = rnd.nextBoolean();
                 if (vertical) {
-                    int x = rnd.nextInt(sizeX);
-                    int y = rnd.nextInt(sizeY - (s.size() - 1));
-                    pos = new Position(x, y);
+                    int xCoordinate = rnd.nextInt(sizeX);
+                    int yCoordinate = rnd.nextInt(sizeY - (s.size() - 1));
+                    pos = new Position(xCoordinate, yCoordinate);
                 } else {
-                    int x = rnd.nextInt(sizeX - (s.size() - 1));
-                    int y = rnd.nextInt(sizeY);
-                    pos = new Position(x, y);
+                    int xCoordinate = rnd.nextInt(sizeX - (s.size() - 1));
+                    int yCoordinate = rnd.nextInt(sizeY);
+                    pos = new Position(xCoordinate, yCoordinate);
                 }
             } while (collision(pos, s, vertical)); // skal se dette i forhold vores array
 
@@ -159,7 +159,7 @@ public class RandomPlayer implements BattleshipsPlayer {
             if (vertical && myShips[pos.x][pos.y + j] == true) {
                 return true;
             }
-            if (myShips[pos.x + j][pos.y] == true) {
+            if (!vertical && myShips[pos.x + j][pos.y] == true) {
                 return true;
             }
         }
